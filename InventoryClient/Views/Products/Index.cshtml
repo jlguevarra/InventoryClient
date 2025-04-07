@@ -1,0 +1,51 @@
+﻿@model List<InventoryClient.Models.Product>
+
+@{
+    ViewBag.Title = "Product List";
+}
+
+<h2>Product Inventory</h2>
+<div class="mb-3">
+    @Html.ActionLink("Add New Product", "Create", null, new { @class = "btn btn-primary" })
+</div>
+
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+    <div class="form-group mb-3">
+        <input type="text" name="searchTerm" value="@Context.Request.Query["searchTerm"]" class="form-control" placeholder="Search product name..." />
+    </div>
+}
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Created At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.name</td>
+                <td>@item.description</td>
+                <td>@item.quantity</td>
+                <td>@item.price.ToString("C")</td>
+                <td>@item.created_at.ToString("g")</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "btn btn-warning btn-sm" })
+                    @using (Html.BeginForm("Delete", "Products", new { id = item.id }, FormMethod.Post,false, new { onsubmit = "return confirm('Are you sure you want to delete this product?');" }))
+                    {
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
