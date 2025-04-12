@@ -4,32 +4,68 @@
     ViewBag.Title = "Edit Product";
 }
 
-<h2>Edit Product</h2>
+<!-- Header with gradient background -->
+<div class="header-gradient">
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <h1 class="display-5 fw-bold m-0">Edit Product</h1>
+        </div>
+    </div>
+</div>
 
-@using (Html.BeginForm())
-{
-    @Html.HiddenFor(m => m.id)
+<div class="row mt-4">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(m => m.id)
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.name)
-        @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.description)
-        @Html.TextAreaFor(m => m.description, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.quantity)
-        @Html.TextBoxFor(m => m.quantity, new { @class = "form-control", type = "number" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.price)
-        @Html.TextBoxFor(m => m.price, new { @class = "form-control", type = "number", step = "0.01" })
-    </div>
-    <br />
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="form-floating mb-3">
+                                @Html.TextBoxFor(m => m.name, new { @class = "form-control", placeholder = "Product Name" })
+                                @Html.LabelFor(m => m.name)
+                            </div>
+                        </div>
+                    </div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
-    <br />
-    <br />
-    @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary" })
-}
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="form-floating mb-3">
+                                @Html.TextAreaFor(m => m.description, new { @class = "form-control", placeholder = "Description", style = "height: 120px" })
+                                @Html.LabelFor(m => m.description)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                @Html.TextBoxFor(m => m.quantity, new { @class = "form-control", type = "number", placeholder = "Quantity" })
+                                @Html.LabelFor(m => m.quantity)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                @Html.TextBoxFor(m => m.price, new { @class = "form-control", type = "number", step = "0.01", placeholder = "Price" })
+                                @Html.LabelFor(m => m.price)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-between">
+                        <div>
+                            @Html.ActionLink("← Back to List", "Index", null, new { @class = "btn btn-outline-secondary" })
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                                <i class="bi bi-check-lg me-1"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,12 @@
 ﻿using InventoryClient.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-
 
 namespace InventoryClient.Controllers
 {
@@ -35,7 +37,30 @@ namespace InventoryClient.Controllers
             return View(products);
         }
 
+        // GET: Products/Search - New action for AJAX search
+        public async Task<ActionResult> Search(string searchTerm = "")
+        {
+            List<Product> products = new List<Product>();
 
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(apiBaseUrl + "read.php");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    products = JsonConvert.DeserializeObject<List<Product>>(json);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                products = products.Where(p => p.name.ToLower().Contains(searchTerm.ToLower())).ToList();
+            }
+
+            return PartialView("_ProductList", products);
+        }
+
+        // The rest of your controller methods remain unchanged
         // GET: Products/Create
         public ActionResult Create()
         {
@@ -141,13 +166,5 @@ namespace InventoryClient.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-
-
-
-
-
     }
-
 }

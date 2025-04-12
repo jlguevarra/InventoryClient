@@ -1,0 +1,30 @@
+﻿@model List<InventoryClient.Models.Product>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td class="ps-4">@item.id</td>
+        <td class="fw-semibold">@item.name</td>
+        <td>
+            <span class="text-truncate d-inline-block" style="max-width: 250px;">
+                @item.description
+            </span>
+        </td>
+        <td class="text-center">
+            <span class="badge @(item.quantity > 10 ? "bg-success" : (item.quantity > 0 ? "bg-warning" : "bg-danger")) rounded-pill">
+                @item.quantity
+            </span>
+        </td>
+        <td class="text-end fw-bold">@item.price.ToString("C")</td>
+        <td>@item.created_at.ToString("MMM d, yyyy")</td>
+        <td>
+            <div class="d-flex justify-content-center gap-2">
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "btn btn-outline-primary btn-sm" })
+                @using (Html.BeginForm("Delete", "Products", new { id = item.id }, FormMethod.Post, false, new { @class = "d-inline", onsubmit = "return confirm('Are you sure you want to delete this product?');" }))
+                {
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                }
+            </div>
+        </td>
+    </tr>
+}
